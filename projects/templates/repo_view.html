@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>{{name}}</h2>
+<h3>Owner : {{ owner }}</h3>
+<h3>Description : {{ description }}</h3>
+<h3>URL to repository : {{ url }}</h3>
+<h3>Created On : {{ created_at }}</h3>
+<h3>Last Updated : {{ updated_at }}</h3>
+{% endblock %}

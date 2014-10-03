@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<div class="error">
+    {% if error %}
+    	<h5 align="center"><b>No Search Results Found!</b></h5>
+    {% endif %}
+</div>
+
+<div class="tabs">
+<style>
+.tabs {
+  position: relative;   
+  min-height: 200px; /* This part sucks */
+  clear: both;
+  margin: 25px 0;
+}
+.tab {
+  float: left;
+}
+.tab label {
+  background: #eee; 
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  margin-left: -1px; 
+  position: relative;
+  left: 1px; 
+}
+.tab [type=radio] {
+  display: none;   
+}
+.content {
+  position: absolute;
+  height: 400px;
+  top: 28px;
+  left: 0;
+  background: white;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  border: 1px solid #ccc; 
+}
+[type=radio]:checked ~ label {
+  background: white;
+  border-bottom: 1px solid white;
+  z-index: 2;
+}
+[type=radio]:checked ~ label ~ .content {
+  z-index: 1;
+}
+</style>
+    
+   <div class="tab">
+       <input type="radio" id="tab-1" name="tab-group-1" checked>
+       <label for="tab-1">Project Name</label>
+       
+       <div class="content">
+       <br>
+       <h2>Find a Project</h2>
+       <br>
+       <br>
+       <br>
+       
+           	 <form id="searchproject" action="" method="POST">
+           		{% csrf_token %}
+    		 <input name="project" type="text" class="projectname" style="font-size: 14px;font-weight: bold; color: black;" placeholder="Type Project Name Here...">
+    		 <input id="submit" type="submit" value="Search">
+			</form>
+			
+<style>
+.projectname{
+	width: 500px;
+}
+		#search, 
+#submit {
+    float: left;
+    margin-right: 10px;
+}
+
+#search {
+    padding: 12px 5px;
+    height: 23px;
+    width: 400px;
+    border: 1px solid #a4c3ca;
+    font: normal 13px 'trebuchet MS', arial, helvetica;
+    background: #f1f1f1;
+    border-radius: 50px 50px 50px 50px;
+    margin-right: 20px;
+    margin-left: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 3px rgba(255, 255, 255, 1);            
+}</style>
+
+       </div> 
+   </div>
+    
+   <div class="tab">
+       <input type="radio" id="tab-2" name="tab-group-1">
+       <label for="tab-2">Project Status</label>
+       
+       <div class="content">
+       <h2>Choose a Project Status</h2>
+       <br>
+       <br>
+        <label>
+    
+    <form id="searchstatus" action="" method="POST">
+    	{% csrf_token %}
+    <select name="status" style="height: 60px;width: 200px">
+        <option style="text-align: left" value="initial" selected>Initial</option>
+        <option style="text-align: left" value="bug">Bug</option>
+        <option style="text-align: left" value="help">Help</option>
+        <option style="text-align: left" value="complete">Complete</option>
+        <input id="go there" type="submit" value="Search" style="margin-right: 10px; margin-top: 8px">
+    </select>
+    </form>
+</label>
+
+<style>
+select {
+position: relative; 
+    padding:14px;
+    margin: 0;
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
+    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    background: #f8f8f8;
+    color:#888;
+    border:none;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
+/* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    select {padding-right:60px}
+}
+
+
+label:after {
+    font:11px "Consolas", monospace;
+    color:#aaa;
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    transform:rotate(90deg);
+    right:8px; top:2px;
+    padding:10px 10px 10px;
+    border-bottom:1px solid #ddd;
+    position:absolute;
+    pointer-events:none;
+}
+label:before {
+    right:6px; top:0px;
+    width:200px; height:60px;
+    background:#f8f8f8;
+    position:absolute;
+    pointer-events:none;
+    display:block;
+}
+</style>
+       </div> 
+   </div>
+    
+    <div class="tab">
+       <input type="radio" id="tab-3" name="tab-group-1">
+       <label for="tab-3">Domain</label>
+     
+       <div class="content">
+             <br>
+       <h2>Search by Programming Langauge</h2>
+       <br>
+       <br>
+       <br>
+       
+           	    
+        <div class="row">
+            <div class="span12">
+            	<form id="searchdomain" action="" method="POST">
+            	{% csrf_token %}
+                <input name="domain" type="text" class="span4 basicTypeahead" placeholder="Type Programming Langauge Here..." autocomplete="off" data-provide="typeahead"/>
+                <input id="submit" type="submit" value="Search">
+                </form>
+            </div>
+        </div>
+   <style>
+   	.span4{
+   		width: 450px;
+   	}
+   </style>
+
+    <script type="text/javascript" src="/static/search.js">
+    </script>
+       </div> 
+   </div>
+   
+     <div class="tab">
+       <input type="radio" id="tab-4" name="tab-group-1">
+       <label for="tab-4">People Search</label>
+     
+       <div class="content">
+         <br>
+       <h2>Search for People</h2>
+       <br>
+       <br>
+       <br>
+       
+           	 <form id="searchuser" action="" method="POST">
+           		{% csrf_token %}
+   			 <input name="user" type="text" class="usersearch" style="font-size: 14px;font-weight: bold; color: black;" placeholder="Type Username or GitHub Handle Here...">
+    		 <input id="submit" type="submit" value="Search">
+			</form>
+           <style>
+           	.usersearch{
+           		width: 500px;
+           	}
+           </style>
+           
+       </div> 
+   </div>
+   
+</div>
+</div>
+{% endblock %}
+

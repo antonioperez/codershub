@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<h3>{{ user_name }}</h3>
+<p>{{ github_username }}</p>
+<p>{{ github_email }}</p>
+<form method="get" action="/dashboard/import">
+    <button type="submit" class="btn btn-primary">Import Project</button>
+</form>
+{% if repo_list %}
+	<h3>Your repositories:</h3>
+	{% for repo in repo_list %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><a href="/projects/{{repo.id}}">
+		{{ repo.name }}
+	</a></h3>
+  </div>
+  <div class="panel-body">
+    <h5>Description : {{ repo.descript|truncatechars:100|safe }}</h5>
+<h5>Status : {{ repo.status }}</h5>
+<h5>Version : {{ repo.version }}</h5>
+  </div>
+</div>
+	{% endfor %}
+{% else %}
+	<h3>You don't have any repositories yet!  Hit the Import Project button to get started!</h3>
+{% endif %}
+</div>
+{% endblock %}

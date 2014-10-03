@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+{% load url from future %}
+<script type="text/javascript" src="{{ STATIC_URL }}/tiny_mce/tiny_mce.js"></script>
+
+<style>
+	
+.comment_text {
+    width: 100%;
+}
+</style>
+
+
+
+<div id="discussion" class="container">
+<h3>{{topic.forum.project.name}}</h3>
+
+<div id="topic_post" >
+            <h2 class="topic_post_title">{{topic.topic}}</h2>
+            <p class="topic_post_meta">{{topic.created}} by 
+            	<a href="#">{% for uhub in topic.forum.project.owners.all %}{{uhub.user.username}}{% endfor %}</a></p>
+			{% autoescape off %}
+				{{topic.content}}
+			{% endautoescape %}
+
+</div>
+
+<hr />
+<form class="form-horizontal"  action="" method="post" style="">
+	{% csrf_token %}
+	<div class="form-group" >
+		<label for="topic" class=" control-label">Comment</label>
+		<div class="">
+			{{comment_form.content}}
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="">
+			<button type="submit" class="btn btn-default">
+				Save
+			</button>
+		</div>
+	</div>
+</form>
+
+<hr />
+
+<ul class="media-list">
+{% if comments %}
+{% autoescape off %}
+{% for c in comments %}
+		<li class="media well">
+			<div class="media-body">
+				<h4 class="media-heading">{{c.commenter.user.username}}</h4>
+				{{c.content}}
+				<br />
+				<button type="button" class="btn btn-default reply">
+								Reply
+				</button>
+
+				<br><br>
+				<form class="form-horizontal"  action="" method="post" style="padding-left: 2%; display: none">
+					{% csrf_token %}
+					<div class="form-group" >
+						<div class="">
+							<textarea name="content" id="{{c.id}}" cols= '20' rows='10' class='comment_text'>
+								
+							</textarea>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="">
+							<input type="hidden" name="cparent" value="{{c.id}}"/>
+							<button type="submit" class="btn btn-default">
+								Save
+							</button>
+							<button type="button" class="btn btn-default cancel">
+								Cancel
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</li>
+
+{% endfor %}
+{% endautoescape %}
+</ul>
+
+
+{% else %}
+<div class="alert alert-danger">No comments yet :(. Post something!</div>
+{% endif %}
+
+
+</div>
+
+<script>
+	
+	$('body').on('click', '.reply', function(){
+	   form = $(this).parent().find('form').show();
+	   console.log(form.find('textarea'));				
+	});
+
+	$('body').on('click', '.cancel', function(){
+	   form = $(this).closest('form').hide();
+	   return false;
+				
+	});
+	
+	
+</script>
+
+</div>
+{% endblock %}

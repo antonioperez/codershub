@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+			$('#carousel').carousel();
+		</script>
+		<style>
+			.carousel-fade .carousel-inner .item {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
+}
+.carousel-fade .carousel-inner .active {
+  opacity: 1;
+}
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+  opacity: 1;
+}
+.carousel-indicaters{
+	    top: 90%;
+		right: 25px;
+		z-index: 31;
+		}
+ .carousel-control .left {
+ height: 40px;
+ width: 20px;
+  }
+html,
+body,
+.carousel,
+.carousel-inner,
+.carousel-inner .item {
+  height: 97%;
+  width: 100%;
+}
+.item:nth-child(1) {
+  background: silver;
+}
+.item:nth-child(2) {
+  background: red;
+}
+.item:nth-child(3) {
+  background: blue;
+}
+		</style>
+<div id="carousel" class="carousel slide carousel-fade" align="middle">
+  <ol align="center" class="carousel-indicators">
+    <li data-target="#carousel" data-slide-to="0" class="active"> </li>
+    <li data-target="#carousel" data-slide-to="1"></li>
+    <li data-target="#carousel" data-slide-to="2"></li>
+  </ol>
+  
+  <div class="carousel-inner">
+    <div class="active item">
+    	<div class="carousel-caption">
+			<h1 style= "font-family: Arial, Helvetica, sans-serif;font-size: 60px; font-weight: bolder">Connect...</h1>
+			<h4 style="font-family: Arial, Helvetica, sans-serif;font-size: 40px; font-weight: bold;"> Link up with like-minded people who enjoy coding just as much as you do.</h4>
+		</div>
+    </div>
+    <div class="item">
+    <div class="carousel-caption">
+			<h1 style="font-family: Arial, Helvetica, sans-serif;font-size: 60px; font-weight: bolder">Recruit...</h1>
+			<h4 style="font-family: Arial, Helvetica, sans-serif;font-size: 40px; font-weight: bold">Need a team to create a project? Gather your colleagues here. </h4>
+		</div>
+    </div>
+    <div class="item">
+    <div class="carousel-caption">
+			<h1 style="font-family: Arial, Helvetica, sans-serif;font-size: 60px; font-weight: bolder">Create...</h1>
+			<h4 style="font-family: Arial, Helvetica, sans-serif;font-size: 40px; font-weight: bold">Receive help and suggestions from other users so your projects can be at their best.</h4>
+		</div>
+    </div>
+  </div>
+
+  <a style="margin-top: 180px;" class="carousel-control left" href="#carousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+  <a style="margin-top: 180px;" class="carousel-control right" href="#carousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></a>
+</div>
+
+{% endblock %}

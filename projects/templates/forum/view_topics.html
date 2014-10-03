@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div align="right">
+	<a href="/projects/{{project.id}}">Project Profile</a>
+	<a href="/projects/{{project.id}}/create/topic/">Create Topic</a>
+</div>
+
+{% autoescape off %}
+{% for t in topics %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{t.topic}}</h3>
+  </div>
+  <div class="panel-body">
+    {{t.content}}
+    	<hr>
+     	<a href="/projects/{{t.id}}/discussion" class="label label-info">Comments</a>
+  </div>
+</div>
+
+
+{% endfor %}
+{% endautoescape %}
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<<<<<<< HEAD
+<p>
+	{{ stream.username }}
+</p>
+=======
+>>>>>>> origin/john
+
+<h3>{{ user_name }}</h3>
+<p>{{ github_username }}</p>
+<p>{{ github_email }}</p>
+<p>
+{% if visitor != user_name  and visitor != None %}
+<form action="#" method="get">
+ <input type="submit" class="btn btn-default" value={% if is_following %} "Unfollow"{% else %} "Follow" {% endif %}name="follow_button">
+</form>
+{% endif %}
+
+</p>
+{% for s in stream %}
+<p>
+	{{ s.actor }} {{ s.verb }} {% if s.target != None %}{{ s.target }}{% endif %} {{ s.timesince }} ago
+</p>
+{% endfor %}
+
+
+<p>    </p>
+
+{% endblock %}

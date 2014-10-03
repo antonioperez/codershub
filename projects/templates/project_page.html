@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Project : {{ project.name }}</h3>
+  </div>
+  <div class="panel-body">
+  	<div align="right">
+  		<a href="/projects/{{project.id}}/view/topics">Forum</a>
+  		
+  	</div>
+  	
+<h5>Domain : {{ project.language }}</h5>
+<h5>Status : {{ project.status }}</h5>
+<h5>Description : {{ project.descript}}</h5>
+<h5>Version : {{ project.version }}</h5>
+<h5>Owners : 
+{% for o in project.owners.all %}
+	<a href="/{{o.user.username}}"> 
+		{{o.user.username}}
+	</a> 
+{% endfor %}
+</h5>
+<h5>Created On : {{ project.created_on }}</h5>
+  </div>
+</div>
+</div>
+{% endblock %}

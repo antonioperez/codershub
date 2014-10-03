@@ -1,0 +1,67 @@
+<style>
+	body {
+		padding-top: 70px;
+	}
+
+</style>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/"> <img src="http://i1172.photobucket.com/albums/r576/avilla16/bcb7752c-8d1a-4ffb-b7cd-542c66f3c290_zpsefd60717.png" style="max-height: 120px; max-width: 180px;margin-left: 0px;" class="img-responsive pull-left"/> </a>
+			</div>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li >
+					<a href="/about_us">About Us</a>
+				</li>
+
+				<li >
+					<a  href={% if user.is_active %} "/projects/{{user}}/repos" {% else %} "/login" {% endif %}>Projects</a>
+				</li>
+
+				<li >
+					<a  href={% if user.is_active %} "/search_tabs" {% else %} "/login" {% endif %}>Search</a>
+				</li>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" role="button" class="dropdown-toggle btn"  data-toggle="dropdown">{% if user.is_active %}{{user}}{% else %}Login/Signup{% endif %} <b class="caret"></b> </a>
+					<ul class="dropdown-menu" role="menu">
+						{% if user.is_active %}
+
+						<li>
+							<a style="text-align: left" href="/dashboard">Profile</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a style="text-align: left" href="/messages">Messages</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a style="text-align: left" href="/logout">Logout</a>
+						</li>
+						<li class="divider"></li>
+
+						{% else %}
+						<li>
+							<a style="text-align: left" href="/login">Login</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a style="text-align: left" href="/register/">Signup</a>
+						</li>
+
+						{% endif %}
+					</ul>
+				</li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
