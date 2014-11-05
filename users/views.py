@@ -80,7 +80,7 @@ def RegisterUser(request):
 #                                              'stream' : stream,})
 
 
-def user_page(request, user):
+def UserPage(request, user):
     try:
         user_name = HubUser.objects.get(user__id=int(user))
     except ValueError:
@@ -125,11 +125,9 @@ def user_page(request, user):
                                               'github_email': github_email,
                                               'stream' : stream,
                                               'visitor' : visitor,
-                                              'is_following' : is_following,
-                                              })
-
-
-def dashboard_view(request):
+                                              'is_following' : is_following, })
+    
+def DashboardView(request):
     if request.user.is_authenticated():
         hubuser = HubUser.objects.get(user__username__iexact=request.user.username)
         repo_list = Project.objects.filter(owners=hubuser)
@@ -179,7 +177,7 @@ def user_dashboard_filter(page_owner):
     filtered_actions.sort(key=lambda x: x.timestamp, reverse=True)
     return filtered_actions
 
-def dashboard_import(request):
+def DashboardImport(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
             import_project_form = ImportProjectForm(request.POST, request=request)

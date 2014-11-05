@@ -21,12 +21,16 @@
 					<a href="/about_us">About Us</a>
 				</li>
 
+
 				<li >
 					<a  href={% if user.is_active %} "/projects/{{user}}/repos" {% else %} "/login" {% endif %}>Projects</a>
 				</li>
 
 				<li >
-					<a  href={% if user.is_active %} "/search_tabs" {% else %} "/login" {% endif %}>Search</a>
+					<a  href={% if user.is_active %} "/search" {% else %} "/login" {% endif %}>Search</a>
+				</li>
+				<li >
+					<a href="/projects/0/view/topics/">Public Forum</a>
 				</li>
 			</ul>
 

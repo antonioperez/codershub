@@ -18,6 +18,10 @@ import datetime
 
 def CreateTopic(request, project_id):
     project = get_object_or_404(Project, id=project_id)
+    
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect("/login")
+    
     if request.method == 'POST':
         topic_form = TopicForm(request.POST)
         if topic_form.is_valid():
@@ -30,20 +34,23 @@ def CreateTopic(request, project_id):
     return render(request, 'forum/add_topic.html', {'topic_form': topic_form,})
 
 def ViewTopic(request, project_id):
-    project = get_object_or_404(Project, id=project_id)
-    topics = Topic.objects.filter(forum=project.forum.id)
+    try:
+        project = Project.objects.get(id=project_id)
+        topics = Topic.objects.filter(forum=project.forum.id) 
+    except:
+        project = Forum.objects.get(public = True)
+        topics = Topic.objects.filter(forum=project.id)    
     if request.method == 'POST':
         # delete/edit topic stuff
         pass
-        
     return render(request, 'forum/view_topics.html', {'project':project, 
                                                       'topics':topics})
-
-
 def Discussion(request, topic_id):
     topic = get_object_or_404(Topic, id=topic_id)
     comments = Comment.objects.filter(parent=None)
     if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect("/login")
         comment_form = CommentForm(request.POST)
         comment = request.POST.get('content')
         if comment_form.is_valid() or comment:
@@ -64,14 +71,14 @@ def Discussion(request, topic_id):
     return render(request, 'forum/discussion.html', {'topic':topic, 
                                                      'comments': comments, 
                                                      'comment_form':comment_form})
-
-    
-
 def ProjectDashboard(request):
     return render(request, 'dashboard.html')
 
-def Project_Page(request, project_id):
+def ProjectPage(request, project_id):
     project = get_object_or_404(Project, id=int(project_id))
+    
+    if request.method == "POST":
+        pass
     
     return render(request, 'project_page.html', {'project': project})
     
@@ -79,7 +86,6 @@ def Project_Page(request, project_id):
 def user_repo_list(request, username):
     user = HubUser.objects.get(user__username__iexact=username)
     repo_list = Project.objects.filter(owners=user)
-    
     return render(request, 'repo_list.html', {'user_name': user.user,
                                               'repo_list': repo_list})
 
@@ -95,11 +101,7 @@ def repo_view(request, username, repo):
                                               'description': json_data['description'],
                                               'url': json_data['url'],
                                               'created_at': json_data['created_at'],
-                                              'updated_at': json_data['updated_at']
-                                              })
-
-
-
+                                              'updated_at': json_data['updated_at'] })
 # Create your views here.
 def search_by_user(request, username):
     users = HubUser.objects.filter(user__username__icontains=username) | HubUser.objects.filter(github__icontains=username)
@@ -111,7 +113,7 @@ def search_by_user(request, username):
         return render(request, 'search_list.html', {'user_name': username,
                                                 'user_list': user_list})
     else:
-        return HttpResponseRedirect('/search_tabs/error')
+        return HttpResponseRedirect('/search/error')
     
 def search_by_domain(request, language):
     projects_list = Project.objects.filter(language__icontains=language)
@@ -120,7 +122,7 @@ def search_by_domain(request, language):
                                                   'projects_list': projects_list,
                                                   })
     else:
-        return HttpResponseRedirect('/search_tabs/error')
+        return HttpResponseRedirect('/search/error')
 
 def search_by_status(request, status):
     projects_list = Project.objects.filter(status = status)
@@ -128,7 +130,7 @@ def search_by_status(request, status):
         return render(request, 'search_status.html', {'status': status,
                                                   'projects_list': projects_list})
     else:
-        return HttpResponseRedirect('/search_tabs/error')
+        return HttpResponseRedirect('/search/error')
     
 def search_by_project(request, project_name):
     projects_list = Project.objects.filter(name__icontains = project_name)
@@ -136,7 +138,7 @@ def search_by_project(request, project_name):
         return render(request, 'search_project.html', {'project_name': project_name,
                                                    'projects_list': projects_list})
     else:
-        return HttpResponseRedirect('/search_tabs/error')
+        return HttpResponseRedirect('/search/error')
 
 
 
@@ -144,7 +146,7 @@ def search_by_project(request, project_name):
 
 # Create your views here.
 
-def Project_Form(request):
+def ProjectForm(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES) 
         

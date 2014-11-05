@@ -35,8 +35,9 @@ class Tag(models.Model):
     
     
 class Forum(models.Model):
-    project = models.OneToOneField(Project)
+    project = models.OneToOneField(Project, blank=True)
     name = models.CharField(blank=True, max_length=100)
+    public = models.BooleanField(default=False)
 
 class Topic(models.Model):
     forum = models.ForeignKey(Forum)

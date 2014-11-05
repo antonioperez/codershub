@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'projects',
     'actstream',
     'django_messages',
+   # 'south',
 )
 
 MIDDLEWARE_CLASSES = (

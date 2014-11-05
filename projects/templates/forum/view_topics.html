@@ -3,14 +3,14 @@
 {% block content %}
 
 
-<div align="right">
+<div align="right" class="container">
 	<a href="/projects/{{project.id}}">Project Profile</a>
 	<a href="/projects/{{project.id}}/create/topic/">Create Topic</a>
 </div>
 
 {% autoescape off %}
 {% for t in topics %}
-<div class="panel panel-default">
+<div class="panel panel-default container" >
   <div class="panel-heading">
     <h3 class="panel-title">{{t.topic}}</h3>
   </div>

@@ -1,14 +1,14 @@
 from django.conf.urls import patterns, include, url
+from django.contrib.auth.views import logout
 
 from views import *
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'coderzhub.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-    url(r'^register/$', RegisterUser, name='register'),
+    url(r'^$', FrontPage, name='home'),
+    url(r'^logout/$', logout, {'next_page': '/'}),
     url(r'^login', LoginUser, name='login'),
-    url(r'^dashboard/$', dashboard_view),
-    url(r'^dashboard/import/$', dashboard_import),
-    url(r'^(?P<user>[A-Za-z0-9]+)/$', user_page),
+    url(r'^register/$', RegisterUser, name='register'),
+    url(r'^dashboard/$', DashboardView),
+    url(r'^dashboard/import/$', DashboardImport),
+    url(r'^user/(?P<user>[A-Za-z0-9]+)/$', UserPage),
 )
