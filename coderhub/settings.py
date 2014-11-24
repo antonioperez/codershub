@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'projects',
     'actstream',
     'django_messages',
-   # 'south',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -94,6 +94,9 @@ STATICFILES_DIRS = (
 )
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
-
-
-
+"""
+TEMPLATE_CONTEXT_PROCESSORS = (
+"django.core.context_processors.debug",
+    "sekizai.context_processors.sekizai",
+)
+"""

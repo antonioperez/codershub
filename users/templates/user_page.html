@@ -2,29 +2,67 @@
 
 {% block content %}
 <div class="container">
-{% for u in stream %}
-<p>
-	{{ stream.username }}
-</p>
-{% endfor %}
 
-<h3>{{ user_name }}</h3>
-<p>{{ github_username }}</p>
-<p>{{ github_email }}</p>
-<p>
-{% if visitor != user_name  and visitor != None %}
-<form action="#" method="get">
- <input type="submit" class="btn btn-default" value={% if is_following %} "Unfollow"{% else %} "Follow" {% endif %}name="follow_button">
-</form>
-{% endif %}
+	<div class="row">
+		<div class="col-sm-3 col-sm-offset-1 well">
 
-</p>
-{% for s in stream %}
-<p>
-	{{ s.actor }} {{ s.verb }} {% if s.target != None %}{{ s.target }}{% endif %} {{ s.timesince }} ago
-</p>
+			<img src="/static/me.jpg"  alt="Responsive image" class="img-circle img-responsive">
+			<h3>{{ hubuser.user.username }}</h3>
+			<p>
+				Github: {{ hubuser.github }}
+			</p>
+			<p>
+				Email: {{ hubuser.user.email }}
+			</p>
+			<p>
+				Name: {{ hubuser.user.first_name }} {{ hubuser.user.last_name }}
+			</p>
+			<p>
+				Last Login: {{ hubuser.user.last_login }}
+			</p>
+			<p>
+				Date joined: {{ hubuser.user.date_joined }}
+			</p>
+			{% if visitor != user_name  and visitor != None %}
+			<form action="#" method="get">
+				<input type="submit" class="btn btn-default" value={% if is_following %} "Unfollow"{% else %} "Follow" {% endif %}name="follow_button">
+			</form>
+			{% endif %}
 
-{% endfor %}
+			<hr />
+			
+			{% for s in stream %}
+			<p>
+				{{ s.actor }} {{ s.verb }} {% if s.target != None %}{{ s.target }}{% endif %} {{ s.timesince }} ago
+			</p>
+
+			{% endfor %}
+		</div>
+
+		<div class="col-sm-8 blog-main">
+			<div class="pull-right">
+				<a href="/messages/compose/" class="btn btn-primary">Send Message</a>
+				<a href="/dashboard/import" class="btn btn-primary">Follow</a>
+			</div>
+			{% if repo_list %}
+			<h3>Your repositories:</h3>
+			{% for repo in repo_list %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title"><a href="/projects/{{repo.id}}"> {{ repo.name }} </a></h3>
+				</div>
+				<div class="panel-body">
+					<h5>Description : {{ repo.descript|truncatechars:100|safe }}</h5>
+					<h5>Status : {{ repo.status }}</h5>
+					<h5>Version : {{ repo.version }}</h5>
+				</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<h3>You don't have any repositories yet!  Hit the Import Project button to get started!</h3>
+			{% endif %}
+		</div>
+	</div>
 
 </div>
 {% endblock %}

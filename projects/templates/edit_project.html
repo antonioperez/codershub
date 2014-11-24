@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load url from future %}
+<script type="text/javascript" src="{{ STATIC_URL }}/tiny_mce/tiny_mce.js"></script>
+
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Project : {{ project.name }}</h3>
+		</div>
+		<div class="panel-body">
+			<div align="right">
+				{% if user.is_authenticated %}
+				<a href="/projects/{{project.id}}/edit/" class="btn btn-default">Edit</a>
+				{%endif%}
+				<a href="/projects/{{project.id}}/view/topics" class="btn btn-default">Forum</a>
+
+			</div>
+			<form class="form-horizontal" role="form" action="" method="post">
+				{% csrf_token %}
+				{{project_form.as_p}}
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">
+							Save
+						</button>
+					</div>
+				</div>
+			</form
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}

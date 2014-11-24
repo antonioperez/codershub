@@ -119,20 +119,24 @@ def UserPage(request, user):
     stream = user_stream_page_filter(user_name.user)
     if visitor != None:
         visitor = visitor.user
-    print stream
+    repo_list = Project.objects.filter(owners=user_name)
     return render(request, 'user_page.html', {'user_name': user_name.user,
                                               'github_username': github_login,
                                               'github_email': github_email,
                                               'stream' : stream,
                                               'visitor' : visitor,
-                                              'is_following' : is_following, })
+                                              'is_following' : is_following, 
+                                              #above needs refractoring
+                                              'hubuser': user_name,
+                                              'repo_list': repo_list
+                                              
+                                              })
     
 def DashboardView(request):
     if request.user.is_authenticated():
         hubuser = HubUser.objects.get(user__username__iexact=request.user.username)
         repo_list = Project.objects.filter(owners=hubuser)
-        return render(request, 'dashboard.html', {'user_name': hubuser.user,
-                                                  'github_username': hubuser.github,
+        return render(request, 'dashboard.html', {'hubuser': hubuser,
                                                   'repo_list': repo_list})
     else:
         return HttpResponseRedirect("/login")

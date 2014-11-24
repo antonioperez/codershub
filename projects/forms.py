@@ -38,6 +38,12 @@ class ProjectForm(forms.ModelForm):
         widgets = {
             'github_password': forms.PasswordInput(),
         }
+
+class UpdateProject(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['name','owners','descript', 'language', 'status', 'version',]
+        
 class TagForm(ModelForm):
     model = Tag
     fields = [Tag]

@@ -10,11 +10,16 @@
 
 	<body >
 		{% include 'top_nav.html' %}
+		
+
+		{% block sidebar %}
+		{% endblock %}
+		
 		{% block content %}
 		{% endblock %}
 		
-		{% block sidebar %}
-		{% endblock %}
+		<br /> <br />
+		<hr />
 		<footer class="footer" style="clear:both;">
 			<div class="container" align="middle" >
 				<p>

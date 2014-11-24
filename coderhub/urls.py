@@ -7,7 +7,7 @@ from projects.views import *
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^addproject/', ProjectForm), #navigate here through the dashboard?
+    url(r'^addproject/', AddProject), #navigate here through the dashboard?
     url(r'^search/$',tabs),
     url(r'^search/(?P<error>[A-Za-z0-9]+)/$',tabs),
     url(r'^search/domain/(?P<language>[A-Za-z0-9_-]+)/$',search_by_domain),

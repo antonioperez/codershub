@@ -23,7 +23,7 @@ class Project(models.Model):
     version = models.CharField(null=True, max_length=15)
     subscribers = models.ManyToManyField(HubUser, related_name='s+', blank=True)
 #    icon = models.ImageField(blank=True, upload_to='media/')
-    created_on = models.DateTimeField(auto_now_add = False)
+    created_on = models.DateTimeField(auto_now_add = False, null=True)
 
     def __unicode__(self):
         return self.name
@@ -52,7 +52,7 @@ class Comment(models.Model):
     content = HTMLField()
     parent = models.ForeignKey('self', blank=True, null=True)
     order = models.IntegerField(default = 0)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
     votes = models.IntegerField(default = 0)
     #votes/score?
     

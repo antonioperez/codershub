@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div class="container">
+	<div class="row">
+
+		{% load url from future %}
+		<script type="text/javascript" src="{{ STATIC_URL }}/tiny_mce/tiny_mce.js"></script>
+
+		<div class="col-sm-3 col-sm-offset-1 well">
+			<ul class="subnavilist">
+				<li>
+					<a href="{% url 'messages_inbox' %} ">&raquo;&nbsp;{% trans "Inbox" %}</a>
+				</li>
+				<li>
+					<a href="{% url 'messages_outbox' %} ">&raquo;&nbsp;{% trans "Sent Messages" %}</a>
+				</li>
+				<li>
+					<a href="{% url 'messages_compose' %} ">&raquo;&nbsp;{% trans "New Message" %}</a>
+				</li>
+				<li>
+					<a href="{% url 'messages_trash' %} ">&raquo;&nbsp;{% trans "Trash" %}</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-sm-8">
+			<!-- block content -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">{% trans "Compose Message"%}</h3>
+				</div>
+				<div class="panel-body">
+					<h1>{% trans "Compose Message"%}</h1>
+					{% blocktrans with recipient=message.recipient sender=message.sender %}Hello {{ recipient }},
+
+					you received a private message from {{ sender }} with
+					the following contents:{% endblocktrans %}
+
+					{{ message.body|safe }}
+
+					--
+					{% blocktrans %}Sent from {{ site_url }}{% endblocktrans %}
+					{% trans "Inbox" %}: {{ site_url }}{% url 'messages_inbox' %}
+					{% trans "Reply" %}: {{ site_url }}{% url 'messages_reply' message.pk %}
+				</div>
+			</div>
+
+			<!-- End block -->
+		</div>
+
+	</div>
+
+</div>
+
+{% endblock %}

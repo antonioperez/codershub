@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),/view/topics/
     url(r'^$', ProjectDashboard, name='Create Forum'),
     url(r'^(?P<project_id>\d+)/$',ProjectPage),
+    url(r'^(?P<project_id>\d+)/edit/$', EditProject, name='Create Topic'),
     url(r'^(?P<project_id>\d+)/create/topic/$', CreateTopic, name='Create Topic'),
     url(r'^(?P<project_id>\d+)/view/topics/$', ViewTopic, name='View Topic'),
     url(r'^(?P<topic_id>\d+)/discussion/$', Discussion, name='Discussion Topic'),

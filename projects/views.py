@@ -81,15 +81,27 @@ def ProjectPage(request, project_id):
         pass
     
     return render(request, 'project_page.html', {'project': project})
+
+
+def EditProject(request, project_id):
+    project = get_object_or_404(Project, id=int(project_id))
+    project_form = UpdateProject(instance=project)
     
+    if request.method == "POST":
+        project_form = UpdateProject(request.POST)
+        if project_form.is_valid():
+            update = project_form.save(commit=False)
+            update.created_on = project.created_on
+            update.save()
+            return HttpResponseRedirect('/projects/%s/' % project.id)
+    return render(request, 'edit_project.html', {'project': project, 'project_form': project_form})
     
 def user_repo_list(request, username):
     user = HubUser.objects.get(user__username__iexact=username)
     repo_list = Project.objects.filter(owners=user)
     return render(request, 'repo_list.html', {'user_name': user.user,
                                               'repo_list': repo_list})
-
-
+    
 def repo_view(request, username, repo):
     user = HubUser.objects.get(user__username__iexact=username)
     project_details = Project.objects.get(name=repo, owners=user)
@@ -146,7 +158,7 @@ def search_by_project(request, project_name):
 
 # Create your views here.
 
-def ProjectForm(request):
+def AddProject(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES) 
         
