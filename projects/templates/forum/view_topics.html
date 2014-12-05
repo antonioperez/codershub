@@ -7,22 +7,75 @@
 	<a href="/projects/{{project.id}}" class="btn btn-default">Project Profile</a>
 	<a href="/projects/{{project.id}}/create/topic/" class="btn btn-default">Create Topic</a>
 </div>
+<br>
+
 
 {% autoescape off %}
 {% for t in topics %}
-<div class="panel panel-default container" >
+
+<div class="container">
+	<div id="upvote"><a href="#" class="upvote">&#8613;</a></div> <div id="downvote"><a  href="#">&#8615;</a></div>
+<div class="panel panel-default" >
   <div class="panel-heading">
-    <h3 class="panel-title">{{t.topic}}</h3>
+    <h3 class="panel-title">{{t.topic}}<span class="pull-right label label-info" id="votes">{{t.votes}}</span> <input type="hidden" value="{{t.id}}" name="thread_id" id="thread_id" /></h3>
   </div>
   <div class="panel-body">
     {{t.content}}
     	<hr>
      	<a href="/projects/{{t.id}}/discussion" class="label label-info">Comments</a>
+     	
+     	{% if tags %}
+     	{% for id, tags in tags.items %}     		
+     			{% if id == t.id %}
+     				{% for tag in tags %}  
+     				<span class="pull-right label label-info" href="/search/{{tag.id}}">{{tag.tag}}</span> &nbsp;&nbsp;
+     				{% endfor %}
+     			{%endif%}
+     	{% endfor %}
+     	{%endif%}
+     	
   </div>
+</div>
 </div>
 
 
 {% endfor %}
 {% endautoescape %}
 
+<script >
+	
+$( "#upvote" ).on( "click", function() {
+	voting = $(this).parent().find('#votes');
+	id = $('input[name=thread_id]').val();	
+	votes = parseInt(voting.text()) + 1;
+	url = '/projects/'+id+'/vote/';
+	$.ajax({
+    	url: url,
+    	type: 'post', 
+        data: {
+              'upvote': 'upvote' // from form
+         },
+    	success: function(data) {
+    		
+    	},
+    	failure: function(data) { 
+    		
+    	}
+	}); 
+	return voting.text(votes); 
+	
+});
+	
+$( "#downvote" ).on( "click", function() {
+	voting = $(this).parent().find('#votes');
+	votes = parseInt(voting.text()) - 1;
+	return voting.text(votes); 
+	
+});
+
+	
+</script>
+
 {% endblock %}
+
+

@@ -17,7 +17,10 @@ import datetime
 
 
 def CreateTopic(request, project_id):
-    project = get_object_or_404(Project, id=project_id)
+    try:
+        project = Project.objects.get(id=project_id)
+    except:
+        project = Forum.objects.get(id=project_id)
     
     if not request.user.is_authenticated():
         return HttpResponseRedirect("/login")
@@ -26,7 +29,11 @@ def CreateTopic(request, project_id):
         topic_form = TopicForm(request.POST)
         if topic_form.is_valid():
             new_topic = topic_form.save(commit=False)
-            new_topic.forum = project.forum
+            try:
+                project.forum
+                new_topic.forum = project.forum
+            except:
+                new_topic.forum = project
             new_topic.save()
             return HttpResponseRedirect('/projects/%s/view/topics/' % project.id)
     else:
@@ -36,15 +43,56 @@ def CreateTopic(request, project_id):
 def ViewTopic(request, project_id):
     try:
         project = Project.objects.get(id=project_id)
-        topics = Topic.objects.filter(forum=project.forum.id) 
+        topics = Topic.objects.filter(forum=project.forum.id).order_by('-votes')
     except:
-        project = Forum.objects.get(public = True)
-        topics = Topic.objects.filter(forum=project.id)    
+        project = Forum.objects.get(id=project_id)
+        topics = Topic.objects.filter(forum=project.id).order_by('-votes')
+        
+    tags = {}
+    for t in topics:
+        tag = Tag.objects.filter(topic = t)
+        tags[t.id] = tag
+            
     if request.method == 'POST':
         # delete/edit topic stuff
         pass
     return render(request, 'forum/view_topics.html', {'project':project, 
-                                                      'topics':topics})
+                                                      'topics':topics, 'tags': tags,})
+
+from django.shortcuts import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def VoteTopic(request, topic_id):
+    topic = Topic.objects.get(id=topic_id)  
+    topic.votes += 1
+    topic.save()
+    return HttpResponse(topic.votes)
+ 
+    
+def PublicForums(request):
+    forums = Forum.objects.filter(public = True)
+    if request.method == 'POST':
+        # delete/edit topic stuff
+        pass
+    return render(request, 'forum/view_forums.html', {'forums':forums,})
+
+
+
+def CreateForum(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect("/login")
+    
+    if request.method == 'POST':
+        forum_form = ForumForm(request.POST)
+        if forum_form.is_valid():
+            new_forum = forum_form.save(commit=False)
+            new_forum.public = True
+            new_forum.save()
+            return HttpResponseRedirect('/projects/forums')
+    else:
+        forum_form = ForumForm()
+    return render(request, 'forum/add_forum.html', {'forum_form': forum_form,})
+
 def Discussion(request, topic_id):
     topic = get_object_or_404(Topic, id=topic_id)
     comments = Comment.objects.filter(parent=None)
@@ -81,6 +129,9 @@ def ProjectPage(request, project_id):
         pass
     
     return render(request, 'project_page.html', {'project': project})
+
+
+
 
 
 def EditProject(request, project_id):

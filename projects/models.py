@@ -28,15 +28,11 @@ class Project(models.Model):
     def __unicode__(self):
         return self.name
     
-    
-class Tag(models.Model):
-    project = models.ForeignKey(Project)
-    tag = models.CharField(null=True, max_length=30)
-    
-    
+        
 class Forum(models.Model):
-    project = models.OneToOneField(Project, blank=True)
+    project = models.OneToOneField(Project, null=True, blank= True)
     name = models.CharField(blank=True, max_length=100)
+    content = HTMLField()
     public = models.BooleanField(default=False)
 
 class Topic(models.Model):
@@ -59,8 +55,11 @@ class Comment(models.Model):
     def thread_comments(self):
         comments = self.objects.filter(id=self.id)
 
-
-
+class Tag(models.Model):
+    project = models.ForeignKey(Project, null=True, blank= True)
+    forum = models.ForeignKey(Forum, null=True, blank= True)
+    topic = models.ForeignKey(Topic, null=True, blank= True)
+    tag = models.CharField(null=True, max_length=30)
     
         
         

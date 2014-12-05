@@ -11,6 +11,14 @@ from tinymce.widgets import TinyMCE
 from django.forms.formsets import formset_factory
 
 
+class ForumForm(forms.ModelForm):
+    class Meta:
+        model = Forum
+        fields = ('name','content')
+        widgets = {
+            'content': TinyMCE(attrs={'cols': 20, 'rows': 10, 'class':'comment_text'}),
+        }
+        
 class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
@@ -19,6 +27,7 @@ class TopicForm(forms.ModelForm):
             'content': TinyMCE(attrs={'cols': 20, 'rows': 10, 'class':'comment_text'}),
         }
 
+        
 class CommentForm(forms.ModelForm):
     content1 = forms.CharField(widget=TinyMCE(attrs={'cols': 20, 'rows': 20, 'class':'comment_text'}))
     class Meta:

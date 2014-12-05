@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div align="right" class="container">
+	<a href="/projects/{{project.id}}" class="btn btn-default">Project Profile</a>
+	<a href="/projects/create/forum/" class="btn btn-default">Create Forum</a>
+</div>
+
+{% autoescape off %}
+{% for f in forums %}
+<div class="panel panel-default container" >
+  <div class="panel-heading">
+    <h3 class="panel-title"><a href="/projects/{{f.id}}/view/topics/" class="">{{f.name}}</a></h3>
+  </div>
+  <div class="panel-body">
+		{{f.content|safe}}
+
+  </div>
+</div>
+
+
+{% endfor %}
+{% endautoescape %}
+
+{% endblock %}
