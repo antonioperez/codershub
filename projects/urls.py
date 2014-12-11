@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     url(r'^(?P<project_id>\d+)/edit/$', EditProject, name='Create Topic'),
     url(r'^(?P<project_id>\d+)/create/topic/$', CreateTopic, name='Create Topic'),
     url(r'^(?P<project_id>\d+)/view/topics/$', ViewTopic, name='View Topic'),
-    url(r'^(?P<topic_id>\d+)/vote/$', VoteTopic, name='Vote Topic'),
+    url(r'vote/$', VoteTopic, name='Vote Topic'),
     
     url(r'^(?P<topic_id>\d+)/discussion/$', Discussion, name='Discussion Topic'),
     url(r'^(?P<username>[A-Za-z0-9]+)/repos/$', user_repo_list),

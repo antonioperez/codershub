@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+<h3>Search results for: {{ user_name }}</h3>
+{% for user in user_list %}
+<h4>User Name : 
+	<a href="/{{ user.username }}"> 
+		{{ user.username }}
+	</a>
+</h4>
+<h5>GitHub Username : {{ user.github_name }}</h5>
+<h5>Total Repos : {{ user.project_count }}</h5>
+{% endfor %}
+</div>
+{% endblock %}

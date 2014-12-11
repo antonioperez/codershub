@@ -62,21 +62,23 @@ def ViewTopic(request, project_id):
 from django.shortcuts import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
-def VoteTopic(request, topic_id):
-    topic = Topic.objects.get(id=topic_id)  
-    topic.votes += 1
+def VoteTopic(request):
+    topic_id = request.POST['id']
+    topic = Topic.objects.get(id=topic_id) 
+    print request.POST
+    if request.POST['vote'] == 'upvote':
+        topic.votes += 1
+    elif request.POST['vote'] == 'downvote':
+        topic.votes -= 1
     topic.save()
     return HttpResponse(topic.votes)
  
-    
 def PublicForums(request):
     forums = Forum.objects.filter(public = True)
     if request.method == 'POST':
         # delete/edit topic stuff
         pass
     return render(request, 'forum/view_forums.html', {'forums':forums,})
-
-
 
 def CreateForum(request):
     if not request.user.is_authenticated():
@@ -130,10 +132,6 @@ def ProjectPage(request, project_id):
     
     return render(request, 'project_page.html', {'project': project})
 
-
-
-
-
 def EditProject(request, project_id):
     project = get_object_or_404(Project, id=int(project_id))
     project_form = UpdateProject(instance=project)
@@ -167,21 +165,21 @@ def repo_view(request, username, repo):
                                               'updated_at': json_data['updated_at'] })
 # Create your views here.
 def search_by_user(request, username):
-    users = HubUser.objects.filter(user__username__icontains=username) | HubUser.objects.filter(github__icontains=username)
+    users = HubUser.objects.filter(user__username__contains=username) | HubUser.objects.filter(github__icontains=username)
     if users:
         user_list = []
         for user in users:
             projects = Project.objects.filter(owners=user)
             user_list.append({'username': user.user, 'github_name': user.github, 'project_count': projects.count()})
-        return render(request, 'search_list.html', {'user_name': username,
+        return render(request, 'search/search_list.html', {'user_name': username,
                                                 'user_list': user_list})
     else:
         return HttpResponseRedirect('/search/error')
     
 def search_by_domain(request, language):
-    projects_list = Project.objects.filter(language__icontains=language)
+    projects_list = Project.objects.filter(language__contains=language)
     if projects_list:
-        return render(request, 'search_domain.html', {'language': language,
+        return render(request, 'search/search_domain.html', {'language': language,
                                                   'projects_list': projects_list,
                                                   })
     else:
@@ -190,24 +188,18 @@ def search_by_domain(request, language):
 def search_by_status(request, status):
     projects_list = Project.objects.filter(status = status)
     if projects_list:
-        return render(request, 'search_status.html', {'status': status,
+        return render(request, 'search/search_status.html', {'status': status,
                                                   'projects_list': projects_list})
     else:
         return HttpResponseRedirect('/search/error')
     
 def search_by_project(request, project_name):
-    projects_list = Project.objects.filter(name__icontains = project_name)
+    projects_list = Project.objects.filter(name__contains = project_name)
     if projects_list:
-        return render(request, 'search_project.html', {'project_name': project_name,
+        return render(request, 'search/search_project.html', {'project_name': project_name,
                                                    'projects_list': projects_list})
     else:
         return HttpResponseRedirect('/search/error')
-
-
-
-
-
-# Create your views here.
 
 def AddProject(request):
     if request.method == 'POST':
@@ -265,5 +257,7 @@ def tabs(request, error=""):
 
 def about_us_page(request):
     return render(request, 'about_us.html')
+
+
 
 

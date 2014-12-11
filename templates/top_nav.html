@@ -21,7 +21,6 @@
 					<a href="/about_us">About Us</a>
 				</li>
 
-
 				<li >
 					<a  href={% if user.is_active %} "/projects/{{user}}/repos" {% else %} "/login" {% endif %}>Projects</a>
 				</li>

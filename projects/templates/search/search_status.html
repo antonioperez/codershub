@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+<h3>Search results for status: {{ status }}</h3>
+{% for x in projects_list %}
+<h4>Project Name : 
+	<a href="/projects/{{x.id}}"> 
+		{{ x.name }}
+	</a>
+</h4>
+<h5>Description : {{ x.descript|truncatechars:100|safe }} </h5>
+<h5>Owners : {% for o in x.owners.all %} {{o.user.username}} {% endfor %}</h5>
+<h5>Language : {{ x.language }}</h5>
+{% endfor %}
+</div>
+{% endblock %}
