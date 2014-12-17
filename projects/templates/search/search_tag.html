@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+<h3>Search results for Tags: {%for t in tags %}{{ t.tag }} {% endfor %}</h3>
+{%for t in tags %}
+	<div class="panel panel-default" >
+		<div class="panel-heading">
+			<h3 class="panel-title" id="panel-title"><a href="/projects/{{t.topic.id}}/discussion">{{t.topic.topic}}</a><span class="pull-right label label-info" id="votes">{{t.topic.votes}}</span>
+			<input type="hidden" value="{{t.id}}" name="thread_id" id="thread_id" />
+			</h3>
+		</div>
+		<div class="panel-body">
+			{{t.topic.content |safe}}
+			<hr>
+			<a href="/projects/{{t.topic.id}}/discussion" class="label label-info">Comments</a>
+
+
+		</div>
+	</div>
+{% endfor %}
+
+
+
+
+</div>
+{% endblock %}

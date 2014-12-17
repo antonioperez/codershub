@@ -200,6 +200,15 @@ def search_by_project(request, project_name):
                                                    'projects_list': projects_list})
     else:
         return HttpResponseRedirect('/search/error')
+    
+def search_by_tag(request, tag):
+    tags = Tag.objects.filter(tag__contains = tag)
+    if tags:
+        return render(request, 'search/search_tag.html', {'tags': tags,})
+    else:
+        return HttpResponseRedirect('/search/error')
+
+
 
 def AddProject(request):
     if request.method == 'POST':

@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^search/user/(?P<username>[A-Za-z0-9]+)/$',search_by_user),
     url(r'^search/status/(?P<status>[A-Za-z0-9]+)/$',search_by_status),
     url(r'^search/project/(?P<project_name>[A-Za-z0-9_-]+)/$',search_by_project),
+    url(r'^search/tag/(?P<tag>[A-Za-z0-9_-]+)/$',search_by_tag),
     
     url(r'^about_us/$', about_us_page),
     url(r'^projects/', include('projects.urls')),

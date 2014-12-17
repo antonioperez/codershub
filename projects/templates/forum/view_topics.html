@@ -37,7 +37,7 @@
 			{% for id, tags in tags.items %}
 			{% if id == t.id %}
 			{% for tag in tags %}
-			<a class="pull-right label label-info" href="/search/domain/{{tag.tag}}">{{tag.tag}}</a> &nbsp;&nbsp;
+			<a class="pull-right label label-info" href="/search/tag/{{tag.tag}}">{{tag.tag}}</a> &nbsp;&nbsp;
 			{% endfor %}
 			{%endif%}
 			{% endfor %}
