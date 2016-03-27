@@ -5,3 +5,6 @@ CoderzHub, providing a way for every professional, student, and hobbyist to link
 
 
 http://coderhub-aperez.rhcloud.com/
+
+user: demo
+pw: demo
